@@ -1,0 +1,40 @@
+{% extends "base_bootstrap.html" %}
+{% load humanize %} 
+{% block hecontact %}
+<style>
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: none;
+  background-color: rgba(0,0,0,0.5); /*dim the background*/
+}
+</style>
+{% endblock %}
+{% block content %}
+
+
+
+<p><b>first_name</b> : {{ contact.first_name }}</p>
+{% if contact.content_type %}
+<img style="float:right; max-width:50%; max-height: 50%;" src="{% url 'contact:contact_picture' contact.id %}"
+    onclick="document.getElementById('overlay').style.display = 'block';">
+{% endif %}
+<p>
+<b>last_name:</b> {{ contact.last_name }}
+</p>
+<b>email:</b> {{ contact.email }}
+<p>
+<b>text:</b> {{ contact.text }} <br>
+<a href="{% url 'contact:all' %}">All contacts</a>
+</p>
+<span>
+    {% if contact.owner == user %}
+    <a href="{% url 'contact:contact_update' contact.id %}"><i class="fa fa-pencil"></i></a>
+    <a href="{% url 'contact:contact_delete' contact.id %}"><i class="fa fa-trash"></i></a>
+    {% endif %}
+</span>
+{% endblock %}

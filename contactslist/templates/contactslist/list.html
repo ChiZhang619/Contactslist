@@ -1,0 +1,29 @@
+{% extends "base_bootstrap.html" %}
+{% block content %}
+<h1>Contacts</h1>
+<p>
+{% if contact_list %}
+<ul>
+  {% for contact in contact_list %}
+    <li>
+        <a href="{% url 'contact:contact_detail'  contact.id %}">{{ contact.first_name }}</a>
+        {% if contact.owner == user %}
+        (<a href="{% url 'contact:contact_update' contact.id %}">Edit</a> |
+        <a href="{% url 'contact:contact_delete' contact.id %}">Delete</a>)
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no contacts in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'contact:contact_create' %}">create an contact</a> |
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next={% url 'contact:all' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'contact:all' %}">Login</a>
+{% endif %}
+</p>
+{% endblock %}
